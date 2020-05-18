@@ -1,5 +1,10 @@
 #include "PokerCard.h"
+#include <iostream>
+using namespace std;
+PokerCard::PokerCard()
+{
 
+}
 PokerCard::PokerCard(int suit, int card)
 {
 	_suit = suit;
@@ -54,19 +59,19 @@ string PokerCard::toString() const
 	switch (_suit)
 	{
 	case 1:
-		ss << (char)'\5';
+		ss << (char)'\6';
 		ss << SCard;
 		break;
 	case 2:
-		ss << (char)'\4';
-		ss << SCard;
-		break;
-	case 3:
 		ss << (char)'\3';
 		ss << SCard;
 		break;
+	case 3:
+		ss << (char)'\4';
+		ss << SCard;
+		break;
 	case 4:
-		ss << (char)'\6';
+		ss << (char)'\5';
 		ss << SCard;
 		break;
 	}

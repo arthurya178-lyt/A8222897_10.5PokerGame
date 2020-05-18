@@ -4,10 +4,12 @@
 
 using namespace std;
 class PokerCard
+
 {
 private:
 	int _suit, _card;
 public:
+	PokerCard();
 	PokerCard(int suit,int card);
 	void setCard(int suit, int card);
 	int getSuit() const;

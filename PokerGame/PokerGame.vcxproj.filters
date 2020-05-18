@@ -24,6 +24,9 @@
     <ClCompile Include="PokerCard.cpp">
       <Filter>來源檔案</Filter>
     </ClCompile>
+    <ClCompile Include="toolKit.cpp">
+      <Filter>來源檔案</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="toolKit.h">
