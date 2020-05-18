@@ -1,6 +1,7 @@
-#include "Poker.h"
+﻿#include "Poker.h"
 #include "PokerCard.h"
 #include "toolKit.h"
+#include <iomanip>
 #include <vector>
 Poker::Poker()
 {
@@ -27,7 +28,7 @@ void Poker::drawCard(int coorX, int coorY, const PokerCard &GCard)
 		gotoxy(coorX, coorY + 4); cout << "*  *****  *";
 		gotoxy(coorX, coorY + 5); cout << "*    *    *";
 		gotoxy(coorX, coorY + 6); cout << "*   ***   *";
-		gotoxy(coorX, coorY + 7); cout << "*    " << GCard.getStringCard() << "    *";
+		gotoxy(coorX, coorY + 7); cout << "*   " << setw(3) <<GCard.toString() << "   *";
 		gotoxy(coorX, coorY + 8); cout << "***********";
 		break;
 	case 2:
@@ -38,7 +39,7 @@ void Poker::drawCard(int coorX, int coorY, const PokerCard &GCard)
 		gotoxy(coorX, coorY + 4); cout << "*  *****  *";
 		gotoxy(coorX, coorY + 5); cout << "*   ***   *";
 		gotoxy(coorX, coorY + 6); cout << "*    *    *";
-		gotoxy(coorX, coorY + 7); cout << "*    " << GCard.getStringCard() << "    *";
+		gotoxy(coorX, coorY + 7); cout << "*   " << setw(3) << GCard.toString() << "   *";
 		gotoxy(coorX, coorY + 8); cout << "***********";
 		break;
 	case 3:
@@ -49,7 +50,7 @@ void Poker::drawCard(int coorX, int coorY, const PokerCard &GCard)
 		gotoxy(coorX, coorY + 4); cout << "*  *****  *";
 		gotoxy(coorX, coorY + 5); cout << "*   ***   *";
 		gotoxy(coorX, coorY + 6); cout << "*    *    *";
-		gotoxy(coorX, coorY + 7); cout << "*    " << GCard.getStringCard() << "    *";
+		gotoxy(coorX, coorY + 7); cout << "*   " << setw(3) << GCard.toString() << "   *";
 		gotoxy(coorX, coorY + 8); cout << "***********";
 		break;
 	case 4:
@@ -60,7 +61,7 @@ void Poker::drawCard(int coorX, int coorY, const PokerCard &GCard)
 		gotoxy(coorX, coorY + 4); cout << "* ******* *";
 		gotoxy(coorX, coorY + 5); cout << "*    *    *";
 		gotoxy(coorX, coorY + 6); cout << "*   ***   *";
-		gotoxy(coorX, coorY + 7); cout << "*    " << GCard.getStringCard() << "    *";
+		gotoxy(coorX, coorY + 7); cout << "*   " << setw(3) << GCard.toString() << "   *";
 		gotoxy(coorX, coorY + 8); cout << "***********";
 		break;
 	default:
