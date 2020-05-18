@@ -17,15 +17,56 @@ Poker::Poker()
 }
 void Poker::drawCard(int coorX, int coorY, const PokerCard &GCard)
 {
-	gotoxy(coorX, coorY);	  cout << "***********";
-	gotoxy(coorX, coorY + 1); cout << "*    *    *";
-	gotoxy(coorX, coorY + 2); cout << "*   ***   *";
-	gotoxy(coorX, coorY + 3); cout << "*  *****  *";
-	gotoxy(coorX, coorY + 4); cout << "*  *****  *";
-	gotoxy(coorX, coorY + 5); cout << "*    *    *";
-	gotoxy(coorX, coorY + 6); cout << "*   ***   *";
-	gotoxy(coorX, coorY + 7); cout << "*    " << GCard.getStringCard() << "    *";
-	gotoxy(coorX, coorY + 8); cout << "***********";
+	switch (GCard.getSuit())
+	{
+	case 1:
+		gotoxy(coorX, coorY);	  cout << "***********";
+		gotoxy(coorX, coorY + 1); cout << "*    *    *";
+		gotoxy(coorX, coorY + 2); cout << "*   ***   *";
+		gotoxy(coorX, coorY + 3); cout << "*  *****  *";
+		gotoxy(coorX, coorY + 4); cout << "*  *****  *";
+		gotoxy(coorX, coorY + 5); cout << "*    *    *";
+		gotoxy(coorX, coorY + 6); cout << "*   ***   *";
+		gotoxy(coorX, coorY + 7); cout << "*    " << GCard.getStringCard() << "    *";
+		gotoxy(coorX, coorY + 8); cout << "***********";
+		break;
+	case 2:
+		gotoxy(coorX, coorY);	  cout << "***********";
+		gotoxy(coorX, coorY + 1); cout << "*    *    *";
+		gotoxy(coorX, coorY + 2); cout << "*   ***   *";
+		gotoxy(coorX, coorY + 3); cout << "*  *****  *";
+		gotoxy(coorX, coorY + 4); cout << "*  *****  *";
+		gotoxy(coorX, coorY + 5); cout << "*   ***   *";
+		gotoxy(coorX, coorY + 6); cout << "*    *    *";
+		gotoxy(coorX, coorY + 7); cout << "*    " << GCard.getStringCard() << "    *";
+		gotoxy(coorX, coorY + 8); cout << "***********";
+		break;
+	case 3:
+		gotoxy(coorX, coorY);	  cout << "***********";
+		gotoxy(coorX, coorY + 1); cout << "*  *   *  *";
+		gotoxy(coorX, coorY + 2); cout << "* *** *** *";
+		gotoxy(coorX, coorY + 3); cout << "* ******* *";
+		gotoxy(coorX, coorY + 4); cout << "*  *****  *";
+		gotoxy(coorX, coorY + 5); cout << "*   ***   *";
+		gotoxy(coorX, coorY + 6); cout << "*    *    *";
+		gotoxy(coorX, coorY + 7); cout << "*    " << GCard.getStringCard() << "    *";
+		gotoxy(coorX, coorY + 8); cout << "***********";
+		break;
+	case 4:
+		gotoxy(coorX, coorY);	  cout << "***********";
+		gotoxy(coorX, coorY + 1); cout << "*   ***   *";
+		gotoxy(coorX, coorY + 2); cout << "*   ***   *";
+		gotoxy(coorX, coorY + 3); cout << "* ******* *";
+		gotoxy(coorX, coorY + 4); cout << "* ******* *";
+		gotoxy(coorX, coorY + 5); cout << "*    *    *";
+		gotoxy(coorX, coorY + 6); cout << "*   ***   *";
+		gotoxy(coorX, coorY + 7); cout << "*    " << GCard.getStringCard() << "    *";
+		gotoxy(coorX, coorY + 8); cout << "***********";
+		break;
+	default:
+		break;
+	}
+	
 }
 
 void Poker::PrintAll()
