@@ -248,6 +248,26 @@ int Poker::playerDecision(int player)
 
 void Poker::allDecision()
 {
-	for(int i = 0 ;i < 5;i++)
+	for(int i = 0 ;i < 6;i++)
 		playerStatus[i] = playerDecision(i);
+}
+
+int Poker::JudgePlayer(int player)
+{
+	if (playerStatus[player] == 2)
+	{
+		return 2;
+	}
+	if (playerStatus[5] >= 0 && countPlayerPoint(player) > countPlayerPoint(5))
+	{
+		return 1;
+	}
+	else if (playerStatus[5] >= 0 && countPlayerPoint(player) == countPlayerPoint(5))
+	{
+		return 0;
+	}
+	else
+	{
+		return -1;
+	}
 }

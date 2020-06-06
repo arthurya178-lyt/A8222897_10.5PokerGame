@@ -28,7 +28,8 @@ public:
 	void printAllPlayer();								//印出所有玩家的卡
 	double countPlayerPoint(int player);				//計算單個玩家目前點數
 	void drawPoker(int player);							//為某位玩家抽卡
-	int playerDecision(int player);
-	void allDecision();
+	int playerDecision(int player);						//玩家加牌選擇(return=2(過五關)1(十點半),0(未爆),-1(爆點))
+	void allDecision();									//全部玩家加牌選擇
+	int JudgePlayer(int player);						//檢測玩家是否獲勝(return=2(過五關)1(勝利),0(平局),-1(失敗))
 };
 
