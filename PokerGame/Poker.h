@@ -10,6 +10,7 @@ private:
 	int drawingCard = 0;												//正在抽取的卡號
 	void printCard(int coorX, int coorY, const PokerCard &Card);		//印出單張卡片
 public:
+	int playerStatus[6] = { 0,0,0,0,0,0 };								//玩家抽卡狀態
 	vector<vector<int>> Player_card =									//玩家持有的卡牌(52是卡背(0))
 	{
 		{52,52,52,52,52},
@@ -27,6 +28,7 @@ public:
 	void printAllPlayer();								//印出所有玩家的卡
 	double countPlayerPoint(int player);				//計算單個玩家目前點數
 	void drawPoker(int player);							//為某位玩家抽卡
-	void playerDecision(int player);
+	int playerDecision(int player);
+	void allDecision();
 };
 

@@ -91,3 +91,4 @@ PokerCard& PokerCard::operator=(const PokerCard &card2)
 
 	return *this;
 }
+

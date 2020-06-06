@@ -113,9 +113,9 @@ void Poker::printCard(int coorX, int coorY, const PokerCard &GCard)
 		gotoxy(coorX, coorY + 7); cout << "**       **";
 		gotoxy(coorX, coorY + 8); cout << "***********";
 		break;
-		break;
+break;
 	}
-	
+
 }
 
 
@@ -124,14 +124,14 @@ void Poker::printPlayer(int player)
 	if (player != 5)
 	{
 		gotoxy(playerCoor[player][0][0] - 1, playerCoor[player][0][1] - 1);
-		cout << "--Player:" << player+1 << " --" << "Player Point:" << setw(4) << fixed << setprecision(1) << countPlayerPoint(player) << "--";
+		cout << "--Player:" << player + 1 << " --" << "Player Point:" << setw(4) << fixed << setprecision(1) << countPlayerPoint(player) << "--";
 		for (int i = 0; i < 5; i++)
 			printCard(playerCoor[player][i][0], playerCoor[player][i][1], card[Player_card[player][i]]);
 	}
 	else
 	{
 		gotoxy(playerCoor[player][0][0] - 1, playerCoor[player][0][1] - 1);
-		cout << "--Dealer--" << "Player Point:" <<setw(4)<< fixed << setprecision(1) << countPlayerPoint(player) << "--";
+		cout << "--Dealer--" << "Player Point:" << setw(4) << fixed << setprecision(1) << countPlayerPoint(player) << "--";
 		for (int i = 0; i < 5; i++)
 			printCard(playerCoor[player][i][0], playerCoor[player][i][1], card[Player_card[player][i]]);
 	}
@@ -148,7 +148,7 @@ void Poker::printAllPlayer()
 double Poker::countPlayerPoint(int player)
 {
 	double totalPoint = 0;
-	for (int i = 0; i < 5;i++)
+	for (int i = 0; i < 5; i++)
 	{
 		int point = card[Player_card[player][i]].getCard();
 		if (point >= 11)
@@ -166,20 +166,21 @@ double Poker::countPlayerPoint(int player)
 void Poker::drawPoker(int player)
 {
 	Player_card[player][playerLocate[player]] = drawingCard;
-	
+
 	playerLocate[player]++;
 	drawingCard++;
 }
 
 
-void Poker::playerDecision(int player)
+int Poker::playerDecision(int player)
 {
+	int status;
 	bool keep = true;
 	drawPoker(player);
 	printPlayer(player);
 	for (int i = 0; i < 4; i++)
 	{
-				
+
 		bool loopKeep = true;
 		do
 		{
@@ -211,6 +212,42 @@ void Poker::playerDecision(int player)
 			cout << "                                                    ";
 		} while (loopKeep);
 		if (!(keep))
+		{
+			status = 0;
+			gotoxy(playerCoor[player][0][0], playerCoor[player][0][1] + 9);
+			cout << "--- 未爆 --- 點數: "<<setw(4) << fixed << setprecision(1) <<countPlayerPoint(player) << "---";
 			break;
+		}
+		else if (countPlayerPoint(player) > 10.5)
+		{
+			status = -1;
+			gotoxy(playerCoor[player][0][0], playerCoor[player][0][1] + 9);
+			cout << "已超過10點半，您已爆點了!!!";
+			sleep(3);
+			gotoxy(playerCoor[player][0][0], playerCoor[player][0][1] + 9);
+			cout << "--- 爆點 --- 點數:" << setw(4) << fixed << setprecision(1) << countPlayerPoint(player) << "---";
+			break;
+		}
+		else if (countPlayerPoint(player) == 10.5)
+		{
+			status = 1;
+			gotoxy(playerCoor[player][0][0], playerCoor[player][0][1] + 9);
+			cout << "--- 十點半 --- 點數: " << setw(4) << fixed << setprecision(1) << countPlayerPoint(player) << "---";
+			break;
+		}
+		else if (i == 3)
+		{
+			status = 2;
+			gotoxy(playerCoor[player][0][0], playerCoor[player][0][1] + 9);
+			cout << "--- 過五關 --- 點數: " << setw(4) << fixed << setprecision(1) << countPlayerPoint(player) << "---";
+			break;
+		}
 	}
+	return status;
+}
+
+void Poker::allDecision()
+{
+	for(int i = 0 ;i < 5;i++)
+		playerStatus[i] = playerDecision(i);
 }

@@ -23,11 +23,7 @@ int main()
 	
 	Poker1.printAllPlayer();
 	tool.sleep(3);
-	Poker1.playerDecision(0);
-	Poker1.playerDecision(1);
-	Poker1.playerDecision(2);
-	Poker1.playerDecision(3);
-	Poker1.playerDecision(4);
+	Poker1.allDecision();
 	Poker1.playerDecision(5);
 	
 	
