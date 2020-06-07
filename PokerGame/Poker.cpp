@@ -5,6 +5,7 @@
 #include <ctime> 
 #include <iomanip>
 #include <vector>
+#include <map>
 Poker::Poker()
 {
 	int PokerPlace = 0;
@@ -34,6 +35,8 @@ void Poker::init(bool checkOut)
 
 		for (int i = 0; i < 6; i++)
 			playerLocate[i] = 0;
+		for (int i = 0; i < 5; i++)
+			playerBet[i] = 0;
 		printAllPlayer();
 		shuffle();
 	}
@@ -41,8 +44,10 @@ void Poker::init(bool checkOut)
 
 void Poker::shuffle()
 {
-	srand(unsigned int(time(NULL)));
-	for (int x = 0; x < (rand() % 6); x++)
+	timeSEED = unsigned int(time(NULL));
+	srand(timeSEED);
+	shuffleTIME = (rand() % 6);
+	for (int x = 0; x < shuffleTIME; x++)
 		for (int i = 51; i >= 0; i--)
 		{
 			int chLocate = rand() % 52;
@@ -124,14 +129,14 @@ void Poker::printPlayer(int player)
 	if (player != 5)
 	{
 		gotoxy(playerCoor[player][0][0] - 1, playerCoor[player][0][1] - 1);
-		cout << "--Player:" << player + 1 << " --" << "Player Point:" << setw(4) << fixed << setprecision(1) << countPlayerPoint(player) << "--";
+		cout << "--閒家:" << player + 1 << " --" << "點數 :" << setw(4) << fixed << setprecision(1) << countPlayerPoint(player) << "--";cout << "持有籌碼:" << playerPoint[player] <<"--下注金額:" << playerBet[player] <<"-----";
 		for (int i = 0; i < 5; i++)
 			printCard(playerCoor[player][i][0], playerCoor[player][i][1], card[Player_card[player][i]]);
 	}
 	else
 	{
 		gotoxy(playerCoor[player][0][0] - 1, playerCoor[player][0][1] - 1);
-		cout << "--Dealer--" << "Player Point:" << setw(4) << fixed << setprecision(1) << countPlayerPoint(player) << "--";
+		cout << "--莊家--" << "點數 :" << setw(4) << fixed << setprecision(1) << countPlayerPoint(player) << "--";
 		for (int i = 0; i < 5; i++)
 			printCard(playerCoor[player][i][0], playerCoor[player][i][1], card[Player_card[player][i]]);
 	}
@@ -139,10 +144,12 @@ void Poker::printPlayer(int player)
 
 void Poker::printAllPlayer()
 {
-	for (int i = 0; i < 6; i++)
+	for (int i = 0; i < playerAmount; i++)
 	{
-		printPlayer(i);
+		if(gameStatus[i])
+			printPlayer(i);
 	}
+	printPlayer(5);
 }
 
 double Poker::countPlayerPoint(int player)
@@ -171,103 +178,308 @@ void Poker::drawPoker(int player)
 	drawingCard++;
 }
 
-
-int Poker::playerDecision(int player)
+int Poker::JudgePc()
 {
-	int status;
-	bool keep = true;
-	drawPoker(player);
-	printPlayer(player);
-	for (int i = 0; i < 4; i++)
+	const int player = 5;
+	if (countPlayerPoint(player) == 10.5)
 	{
+		gotoxy(playerCoor[player][0][0], playerCoor[player][0][1] + 9);
+		cout << "--- 十點半 --- 點數: " << setw(4) << fixed << setprecision(1) << countPlayerPoint(player) << "---";
+		return 1;
+	}
+	else if (countPlayerPoint(player) < 10.5)
+	{
+		gotoxy(playerCoor[player][0][0], playerCoor[player][0][1] + 9);
+		cout << "--- 未爆 --- 點數: " << setw(4) << fixed << setprecision(1) << countPlayerPoint(player) << "---";
+		return 0;
+	}
+	else
+	{
+		gotoxy(playerCoor[player][0][0], playerCoor[player][0][1] + 9);
+		cout << "--- 爆點 --- 點數:" << setw(4) << fixed << setprecision(1) << countPlayerPoint(player) << "---";
+		return -1;
+	}
+}
 
-		bool loopKeep = true;
-		do
+int Poker::playerDecision(const int player)
+{
+	int status = 0;
+	if (gameStatus[player] || player == 5)
+	{
+		bool keep = true;
+		for (int i = 0; i < 4; i++)
 		{
-			char decision;
-			gotoxy(playerCoor[player][0][0], playerCoor[player][0][1] + 9);
-			cout << "是否要叫牌(Y/N)) :";
-			cin >> decision;
-			switch (decision)
+
+			bool loopKeep = true;
+			do
 			{
-			case 'Y':
-			case 'y':
-				drawPoker(player);
-				printPlayer(player);
-				keep = true;
-				loopKeep = false;
-				break;
-			case 'N':
-			case 'n':
-				keep = false;
-				loopKeep = false;
-				break;
-			default:
+				char decision;
 				gotoxy(playerCoor[player][0][0], playerCoor[player][0][1] + 9);
-				cout << "輸入錯誤,請重新輸入!!   ";
-				sleep(3);
+				cout << "                                                               ";
+				gotoxy(playerCoor[player][0][0], playerCoor[player][0][1] + 9);
+				cout << "是否要叫牌(Y/N)) :";
+				cin >> decision;
+				switch (decision)
+				{
+				case 'Y':
+				case 'y':
+					drawPoker(player);
+					printPlayer(player);
+					keep = true;
+					loopKeep = false;
+					break;
+				case 'N':
+				case 'n':
+					keep = false;
+					loopKeep = false;
+					break;
+				default:
+					gotoxy(playerCoor[player][0][0], playerCoor[player][0][1] + 9);
+					cout << "輸入錯誤,請重新輸入!!   ";
+					sleep(3);
+					break;
+				}
+				gotoxy(playerCoor[player][0][0], playerCoor[player][0][1] + 9);
+				cout << "                                                    ";
+			} while (loopKeep);
+			if (!(keep))
+			{
+				status = 0;
+				gotoxy(playerCoor[player][0][0], playerCoor[player][0][1] + 9);
+				cout << "--- 未爆 --- 點數: " << setw(4) << fixed << setprecision(1) << countPlayerPoint(player) << "---";
 				break;
 			}
-			gotoxy(playerCoor[player][0][0], playerCoor[player][0][1] + 9);
-			cout << "                                                    ";
-		} while (loopKeep);
-		if (!(keep))
-		{
-			status = 0;
-			gotoxy(playerCoor[player][0][0], playerCoor[player][0][1] + 9);
-			cout << "--- 未爆 --- 點數: "<<setw(4) << fixed << setprecision(1) <<countPlayerPoint(player) << "---";
-			break;
-		}
-		else if (countPlayerPoint(player) > 10.5)
-		{
-			status = -1;
-			gotoxy(playerCoor[player][0][0], playerCoor[player][0][1] + 9);
-			cout << "已超過10點半，您已爆點了!!!";
-			sleep(3);
-			gotoxy(playerCoor[player][0][0], playerCoor[player][0][1] + 9);
-			cout << "--- 爆點 --- 點數:" << setw(4) << fixed << setprecision(1) << countPlayerPoint(player) << "---";
-			break;
-		}
-		else if (countPlayerPoint(player) == 10.5)
-		{
-			status = 1;
-			gotoxy(playerCoor[player][0][0], playerCoor[player][0][1] + 9);
-			cout << "--- 十點半 --- 點數: " << setw(4) << fixed << setprecision(1) << countPlayerPoint(player) << "---";
-			break;
-		}
-		else if (i == 3)
-		{
-			status = 2;
-			gotoxy(playerCoor[player][0][0], playerCoor[player][0][1] + 9);
-			cout << "--- 過五關 --- 點數: " << setw(4) << fixed << setprecision(1) << countPlayerPoint(player) << "---";
-			break;
+			else if (i == 3 && countPlayerPoint(player) > 10.5)
+			{
+				status = -2;
+				gotoxy(playerCoor[player][0][0], playerCoor[player][0][1] + 9);
+				cout << "--- 過五關 爆點--- 點數: " << setw(4) << fixed << setprecision(1) << countPlayerPoint(player) << "---";
+				break;
+			}
+			else if (countPlayerPoint(player) > 10.5)
+			{
+				status = -1;
+				gotoxy(playerCoor[player][0][0], playerCoor[player][0][1] + 9);
+				cout << "已超過10點半，您已爆點了!!!";
+				sleep(3);
+				gotoxy(playerCoor[player][0][0], playerCoor[player][0][1] + 9);
+				cout << "--- 爆點 --- 點數:" << setw(4) << fixed << setprecision(1) << countPlayerPoint(player) << "---";
+				break;
+			}
+			else if (countPlayerPoint(player) == 10.5 && i == 0)
+			{
+				status = 2;
+				gotoxy(playerCoor[player][0][0], playerCoor[player][0][1] + 9);
+				cout << "--- 兩張十點半 --- 點數: " << setw(4) << fixed << setprecision(1) << countPlayerPoint(player) << "---";
+				break;
+			}
+			else if (countPlayerPoint(player) == 10.5)
+			{
+				status = 1;
+				gotoxy(playerCoor[player][0][0], playerCoor[player][0][1] + 9);
+				cout << "--- 十點半 --- 點數: " << setw(4) << fixed << setprecision(1) << countPlayerPoint(player) << "---";
+				break;
+			}
+			else if (i == 3)
+			{
+				status = 3;
+				gotoxy(playerCoor[player][0][0], playerCoor[player][0][1] + 9);
+				cout << "--- 過五關 --- 點數: " << setw(4) << fixed << setprecision(1) << countPlayerPoint(player) << "---";
+				break;
+			}
 		}
 	}
 	return status;
 }
 
+void Poker::pcDecision()														//莊家選卡    (心累區)
+{
+	srand(timeSEED);
+	while (rand() % 10)
+		rand();
+	drawPoker(5);
+	while(true)
+	{
+		bool keep = true;
+		map<double, int> arrayOfCard = { {0.5,12}, {1,4},{2,4},{3,4},{4,4},{5,4},{6,4},{7,4},{8,4},{9,4},{10,4} };
+		for (int i = 0; i < drawingCard; i++)
+		{
+			arrayOfCard[card[i].convertTo10_5()]--;
+		}
+		double existCard = 52 - drawingCard;
+		double needPoint = 10.5 - countPlayerPoint(5);
+		double needAmount = mapLowAmount(needPoint, arrayOfCard);
+		int targetProbability = int(needAmount / existCard * 1000.0);
+		int random = rand() % 1000;
+		for (int i = 0; i < playerAmount; i++)
+		{
+			if (countPlayerPoint(i) <= countPlayerPoint(5))
+				keep = false;
+		}
+		if(random <= targetProbability && keep)
+		{
+			drawPoker(5);
+			printPlayer(5);
+		}
+		else
+		{
+			break;
+		}
+	};
+	printPlayer(5);
+	JudgePc();
+	sleep(3);
+}
+
 void Poker::allDecision()
 {
-	for(int i = 0 ;i < 6;i++)
+	for(int i = 0 ;i < playerAmount;i++)
 		playerStatus[i] = playerDecision(i);
+	//playerStatus[5] = playerDecision(5);                   //人工DECISION 判斷  手動輸入
 }
 
 int Poker::JudgePlayer(int player)
 {
-	if (playerStatus[player] == 2)
+	if (playerStatus[player] == 3)													//過五關3倍
+	{
+		return 3;
+	}
+	else if (playerStatus[player] == 2)												//10.5兩倍
 	{
 		return 2;
 	}
-	if (playerStatus[5] >= 0 && countPlayerPoint(player) > countPlayerPoint(5))
-	{
-		return 1;
-	}
-	else if (playerStatus[5] >= 0 && countPlayerPoint(player) == countPlayerPoint(5))
-	{
-		return 0;
-	}
-	else
+	else if (playerStatus[player] == -2)											//過五關爆牌賠2倍
 	{
 		return -1;
 	}
+	else if ((playerStatus[player] >= 0 && countPlayerPoint(player) > countPlayerPoint(5)) || (countPlayerPoint(5) > 10.5 && playerStatus[player] >= 0))//贏牌原賭注賠償
+	{
+		return 1;
+	}
+	else if (playerStatus[player] <= 0 && countPlayerPoint(player) <= countPlayerPoint(5))//平手及輸牌 莊家勝
+	{
+		return 0;
+	}
+	return 0;
+}
+
+void Poker::throwFirstCard()
+{
+	for (int i = 0; i < playerAmount; i++)
+		drawPoker(i);
+	printAllPlayer();
+}
+void Poker::betDown()
+{
+	for (int player = 0; player < playerAmount; player++)
+	{
+		if (playerPoint[player] > 0)
+		{
+			stringstream ss;
+			int check;
+			string buff;
+			while (true)
+			{
+				check = 0;
+				buff = "";
+				ss.clear();
+				gameStatus[player] = true;
+				gotoxy(playerCoor[player][0][0], playerCoor[player][0][1] + 9);
+				cout << "玩家" << player + 1 << "請下注  剩餘籌碼: " << playerPoint[player] << " 金額: "; getline(cin, buff);
+				ss << buff;
+				ss >> check;
+				if (check > playerPoint[player])
+				{
+					gotoxy(playerCoor[player][0][0], playerCoor[player][0][1] + 9);
+					cout << "                                                               ";
+					gotoxy(playerCoor[player][0][0], playerCoor[player][0][1] + 9);
+					cout << "您的籌碼不足，請重新下注!!";
+					sleep(3);
+					gotoxy(playerCoor[player][0][0], playerCoor[player][0][1] + 9);
+					cout << "                                                               ";
+				}
+				else if (check <= 0)
+				{
+					gotoxy(playerCoor[player][0][0], playerCoor[player][0][1] + 9);
+					cout << "                                                               ";
+					gotoxy(playerCoor[player][0][0], playerCoor[player][0][1] + 9);
+					cout << "籌碼不可小於等於0，請重新下注!!";
+					sleep(3);
+					gotoxy(playerCoor[player][0][0], playerCoor[player][0][1] + 9);
+					cout << "                                                               ";
+				}
+				else
+				{
+					gotoxy(playerCoor[player][0][0], playerCoor[player][0][1] + 9);
+					cout << "                                                               ";
+					playerBet[player] = check;
+					printPlayer(player);
+					break;
+				}
+			}
+		}
+		else
+		{
+			gotoxy(playerCoor[player][0][0], playerCoor[player][0][1] + 9);
+			cout << "                                                               ";
+			gotoxy(playerCoor[player][0][0], playerCoor[player][0][1] + 9);
+			cout << "您的籌碼不足，無法下注!!";
+			gameStatus[player] = false;
+			sleep(3);
+			gotoxy(playerCoor[player][0][0], playerCoor[player][0][1] + 9);
+			cout << "                                                               ";
+		}
+	}
+}
+
+void Poker::result()
+{
+	for (int player = 0; player < playerAmount; player++)
+	{
+		if (gameStatus[player])
+		{
+			switch (JudgePlayer(player))
+			{
+			case -1:
+				playerPoint[player] -= playerBet[player] * 2;
+				break;
+			case 0:
+				playerPoint[player] -= playerBet[player];
+				break;
+			case 1:
+				playerPoint[player] += playerBet[player];
+				break;
+			case 2:
+				playerPoint[player] += playerBet[player] * 2;
+				break;
+			case 3:
+				playerPoint[player] += playerBet[player] * 3;
+				break;
+			}
+		}
+	}
+	printAllPlayer();
+}
+
+bool Poker::allPlayerStatus()
+{
+	for (int i = 0; i < playerAmount; i++)
+	{
+		if (playerPoint[i] > 0)
+			return true;
+	}
+		return false;
+}
+
+template<typename T, typename U>
+int Poker::mapLowAmount(int number, map<T, U> &map2)
+{
+	int amount = 0;
+	double list[11] = { 0.5,1,2,3,4,5,6,7,8,9,10 };
+	for (int i = 0; i < 11; i++)
+	{
+		if (list[i] < number)
+			amount += map2[list[i]];
+	}
+	return amount;
 }

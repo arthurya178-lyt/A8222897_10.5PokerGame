@@ -52,9 +52,19 @@ void PokerCard::setCard(int card)
 {
 	_card = card;
 }
+
+double PokerCard::convertTo10_5()
+{
+	if (this->_card > 10)
+		return 0.5;
+	else
+		return _card;
+}
+
 string PokerCard::toString() const
 {
 	stringstream ss;
+	ss.clear();
 	string SCard = getStringCard();
 	switch (_suit)
 	{
