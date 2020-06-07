@@ -44,7 +44,6 @@ void Poker::init(bool checkOut)
 
 void Poker::shuffle()
 {
-	timeSEED = unsigned int(time(NULL));
 	srand(timeSEED);
 	shuffleTIME = (rand() % 6);
 	for (int x = 0; x < shuffleTIME; x++)
@@ -482,4 +481,15 @@ int Poker::mapLowAmount(int number, map<T, U> &map2)
 			amount += map2[list[i]];
 	}
 	return amount;
+}
+
+string Poker::jump()
+{
+	string info;
+	gotoxy(playerCoor[5][0][0], playerCoor[5][0][1] + 12);
+	cout << "按任意鍵 準備開始下一局...";
+	getline(cin, info);
+	gotoxy(playerCoor[5][0][0], playerCoor[5][0][1] + 12);
+	cout << "                                             ";
+	return info;
 }

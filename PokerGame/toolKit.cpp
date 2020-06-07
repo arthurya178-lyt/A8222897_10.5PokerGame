@@ -3,8 +3,8 @@
 #include <iostream>
 #include <sstream>
 using namespace std;
-int toolKit::shuffleTIME = 0;
-int toolKit::timeSEED = 0;
+int toolKit::shuffleTIME = 0 ;
+int toolKit::timeSEED = unsigned int(time(NULL));
 int toolKit::playerAmount = 1;
 int toolKit::Chips = 5000;
 int toolKit::playerPoint[5] = { 0,0,0,0,0 };

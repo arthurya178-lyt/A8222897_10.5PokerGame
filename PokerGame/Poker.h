@@ -39,6 +39,7 @@ public:
 	void result();										//結算勝負
 	bool allPlayerStatus();								//檢測是否還有玩家能繼續
 	template<typename T,typename U>
-	int mapLowAmount(int number, map<T, U> &map2);
+	int mapLowAmount(int number, map<T, U> &map2);		//計算最低原素擁有量
+	string jump();
 };
 
