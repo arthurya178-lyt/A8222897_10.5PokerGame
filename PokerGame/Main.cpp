@@ -34,7 +34,6 @@ int main()
 		else if (keyCode == "exit")
 			break;
 	}
-	
 }
 
 
@@ -147,7 +146,7 @@ void controlPanel()
 		default:
 			break;
 		}
-		tool.sleep(5);
+		tool.sleep(30);
 		tool.terminal_clear();
 		if (__controlCode == 8)
 			break;

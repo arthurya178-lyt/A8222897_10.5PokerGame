@@ -272,13 +272,6 @@ int Poker::playerDecision(const int player)
 				cout << "--- 兩張十點半 --- 點數: " << setw(4) << fixed << setprecision(1) << countPlayerPoint(player) << "---";
 				break;
 			}
-			else if (countPlayerPoint(player) == 10.5)
-			{
-				status = 1;
-				gotoxy(playerCoor[player][0][0], playerCoor[player][0][1] + 9);
-				cout << "--- 十點半 --- 點數: " << setw(4) << fixed << setprecision(1) << countPlayerPoint(player) << "---";
-				break;
-			}
 			else if (i == 3)
 			{
 				status = 3;
@@ -286,6 +279,14 @@ int Poker::playerDecision(const int player)
 				cout << "--- 過五關 --- 點數: " << setw(4) << fixed << setprecision(1) << countPlayerPoint(player) << "---";
 				break;
 			}
+			else if (countPlayerPoint(player) == 10.5 )
+			{
+				status = 1;
+				gotoxy(playerCoor[player][0][0], playerCoor[player][0][1] + 9);
+				cout << "--- 十點半 --- 點數: " << setw(4) << fixed << setprecision(1) << countPlayerPoint(player) << "---";
+				break;
+			}
+			
 		}
 	}
 	return status;
@@ -308,8 +309,8 @@ void Poker::pcDecision()														//莊家選卡    (心累區)
 		double existCard = 52 - drawingCard;
 		double needPoint = 10.5 - countPlayerPoint(5);
 		double needAmount = mapLowAmount(needPoint, arrayOfCard);
-		int targetProbability = int(needAmount / existCard * 1000.0);
-		int random = rand() % 1000;
+		int targetProbability = int(needAmount / existCard * 10000.0);
+		int random = rand() % 10000;
 		for (int i = 0; i < playerAmount; i++)
 		{
 			if (countPlayerPoint(i) <= countPlayerPoint(5))
