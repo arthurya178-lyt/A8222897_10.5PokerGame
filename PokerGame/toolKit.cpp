@@ -2,6 +2,7 @@
 #include <string>
 #include <iostream>
 #include <sstream>
+#include <ctime>
 using namespace std;
 int toolKit::shuffleTIME = 0 ;
 int toolKit::timeSEED = unsigned int(time(NULL));
@@ -137,7 +138,7 @@ int toolKit::BetterRead(int &data, string inputS, int locateX, int locateY)
 			cin.clear();
 			cin.sync();
 			cin >> garbage;
-			sleep(3);
+			sleep(1.5);
 		}
 	}
 	data = check;

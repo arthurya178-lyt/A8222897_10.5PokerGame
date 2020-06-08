@@ -49,6 +49,7 @@ void gameFunction()
 {
 	system("mode con cols=190 lines=50");
 	Poker1.init(TRUE);
+	Poker1.shuffle();
 	Poker1.printAllPlayer();
 	Poker1.betDown();
 	Poker1.throwFirstCard();
@@ -105,12 +106,12 @@ void controlPanel()
 			cout << "[修改完成]";
 			break;
 		case 3:
-			cout << "請輸入新的玩家人數:"; cin >> tool.playerAmount;
+			cout << "請輸入新的玩家人數(下局遊戲開始):"; cin >> tool.playerAmount;
 			cout << endl;
 			cout << "[修改完成]";
 			break;
 		case 4:
-			cout << "請輸入新的基礎籌碼:"; cin >> tool.Chips; cout << endl;
+			cout << "請輸入新的基礎籌碼(下局遊戲開始):"; cin >> tool.Chips; cout << endl;
 			cout << "[修改完成]";
 			break;
 		case 5:
@@ -121,7 +122,7 @@ void controlPanel()
 			cout << "[修改完成]";
 			break;
 		case 6:
-			cout << "請確認是否要初始化(輸入True):"; cin >> checkStr; cout << endl;
+			cout << "請確認撲克牌是否要初始化(輸入True):"; cin >> checkStr; cout << endl;
 			if (checkStr == "True")
 			{
 				Poker1.init(true);
@@ -148,7 +149,7 @@ void controlPanel()
 		default:
 			break;
 		}
-		tool.sleep(5);
+		tool.sleep(2.5);
 		tool.terminal_clear();
 		if (__controlCode == 8)
 			break;

@@ -24,6 +24,7 @@ public:
 	void init(bool checkOut = FALSE);					//撲克牌初始化(確認重置)
 	PokerCard card[53];									//定義一副撲克牌
 	Poker();											//撲克牌初始化定義(1~13,4個花色,52是卡背(0))
+	void Nshuffle();
 	void shuffle();										//洗牌
 	void printPlayer(int player);						//印出一位玩家的 (玩家ID)
 	void printAllPlayer();								//印出所有玩家的卡

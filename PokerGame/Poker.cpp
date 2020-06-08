@@ -26,7 +26,7 @@ void Poker::init(bool checkOut)
 {
 	if (checkOut)
 	{
-		drawingCard = 0;
+		
 		for(int i = 0 ; i < 6; i++)
 			for (int j = 0; j < 5; j++)
 			{
@@ -38,12 +38,20 @@ void Poker::init(bool checkOut)
 		for (int i = 0; i < 5; i++)
 			playerBet[i] = 0;
 		printAllPlayer();
-		shuffle();
+		Nshuffle();
 	}
 }
 
+void Poker::Nshuffle()
+{
+	if (50 - drawingCard <= playerAmount * 5)
+	{
+		shuffle();
+	}
+}
 void Poker::shuffle()
 {
+	drawingCard = 0;
 	srand(timeSEED);
 	shuffleTIME = (rand() % 6);
 	for (int x = 0; x < shuffleTIME; x++)
