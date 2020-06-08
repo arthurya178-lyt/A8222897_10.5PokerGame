@@ -5,12 +5,12 @@
 #include<map>
 class Poker : toolKit
 {
-private:
+public:
 	
 	int playerLocate[6] = {0,0,0,0,0,0};								//正在發牌的牌位(INDEX = 玩家編號)
 	int drawingCard = 0;												//正在抽取的卡號
 	void printCard(int coorX, int coorY, const PokerCard &Card);		//印出單張卡片
-public:
+
 	int playerStatus[6] = { -5,-5,-5,-5,-5,-5 };						//玩家抽卡狀態
 	vector<vector<int>> Player_card =									//玩家持有的卡牌(52是卡背(0))
 	{

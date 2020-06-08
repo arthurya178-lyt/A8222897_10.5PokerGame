@@ -308,7 +308,7 @@ void Poker::pcDecision()														//莊家選卡    (心累區)
 		}
 		double existCard = 52 - drawingCard;
 		double needPoint = 10.5 - countPlayerPoint(5);
-		double needAmount = mapLowAmount(needPoint, arrayOfCard);
+		double needAmount = double(mapLowAmount(needPoint, arrayOfCard));
 		int targetProbability = int(needAmount / existCard * 10000.0);
 		int random = rand() % 10000;
 		for (int i = 0; i < playerAmount; i++)
@@ -385,9 +385,11 @@ void Poker::betDown()
 				ss.clear();
 				gameStatus[player] = true;
 				gotoxy(playerCoor[player][0][0], playerCoor[player][0][1] + 9);
-				cout << "玩家" << player + 1 << "請下注  剩餘籌碼: " << playerPoint[player] << " 金額: "; getline(cin, buff);
-				ss << buff;
-				ss >> check;
+				{
+					stringstream ss;
+					ss << "玩家" << player + 1 << "請下注  剩餘籌碼: " << playerPoint[player] << " 金額: ";
+					BetterRead(check, ss.str(), playerCoor[player][0][0], playerCoor[player][0][1] + 9);
+				}
 				if (check > playerPoint[player])
 				{
 					gotoxy(playerCoor[player][0][0], playerCoor[player][0][1] + 9);

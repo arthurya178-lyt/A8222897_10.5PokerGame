@@ -22,8 +22,9 @@ void gameFunction();
 
 int main()
 {
-
-	tool.startUpPage();
+	string option = (tool.startUpPage());
+	if (option == "admin")
+		controlPanel();
 	string keyCode;
 	while (Poker1.allPlayerStatus())
 	{
@@ -64,7 +65,7 @@ void controlPanel()
 	while (true)
 	{
 		tool.terminal_clear();
-		int __controlCode = 8;
+		int __controlCode;
 		string checkStr, checkStr2;
 		system("mode con cols=100 lines=50");
 		tool.gotoxy(0, 0);
@@ -77,7 +78,8 @@ void controlPanel()
 		cout << "6.遊玩狀態初始化" << endl;
 		cout << "7.全遊戲初始化" << endl;
 		cout << "8.離開控制介面" << endl << endl;
-		cout << "請輸入控制編碼:"; cin >> __controlCode;
+		tool.BetterRead(__controlCode, "請輸入控制編碼:", 0, 10);
+		
 		switch (__controlCode)
 		{
 		case 1:
@@ -146,7 +148,7 @@ void controlPanel()
 		default:
 			break;
 		}
-		tool.sleep(30);
+		tool.sleep(5);
 		tool.terminal_clear();
 		if (__controlCode == 8)
 			break;

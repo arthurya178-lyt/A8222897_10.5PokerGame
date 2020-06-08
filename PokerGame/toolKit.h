@@ -7,6 +7,7 @@
 #include <ctime>
 #include <Windows.h>
 #include <map>
+#include <string>
 using namespace std;
 
 class toolKit
@@ -29,13 +30,13 @@ public:
 	};
 	toolKit();
 	void toolKitInit();								//初始化
-	void startUpPage();								//起動介面
-	void pause();									//暫停
+	string startUpPage();								//起動介面
+	string pause();									//暫停
 	void sleep(double );							//休眠(單位 秒)
 	void terminal_clear();							//清除CMD
 	void gotoxy(double, double);					//游標前往指定座標
 	//Map tool
-
+	int BetterRead(int &data, string inputS, int locateX, int locateY);
 };
 
 #endif // !toolKit_h

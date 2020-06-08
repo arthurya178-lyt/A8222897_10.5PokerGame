@@ -23,14 +23,14 @@ void toolKit::toolKitInit()
 	}
 }
 
-void toolKit::startUpPage()
+string toolKit::startUpPage()
 {
 	string chPA, chChips;
 	system("mode con cols=100 lines=50");
 	gotoxy(18, 15);cout  << "                     歡迎遊玩 \"10點半\"";
 	gotoxy(18, 16); cout << "    遊戲說明:A,2,3,4,5,6,7,8,9,10　分別為一至十點。J,Q,K為半點"     ;
 	gotoxy(18, 17); cout << "   閒家可以一路加牌，但若超過十點半，即「爆牌」(Busted)，閒家立賠"  ;
-	gotoxy(18, 18); cout << "     閒家倘若為一隻10加一隻 J,Q或K 成十點半，莊家立2倍原賭注"       ;
+	gotoxy(18, 18); cout << "     閒家倘若為 一隻10加一隻J,Q或K成十點半，莊家立賠2倍原賭注"       ;
 	gotoxy(18, 19); cout << " 若果閒家共有五張牌而仍未「爆牌」，稱「過五關」，莊家立賠3倍原賭注" ;
 	gotoxy(18, 20); cout << "        若果閒家共有五張牌而卻已「爆牌」，閒家立賠2倍原賭注"        ;
 	gotoxy(18, 21); cout << "              若莊家與閒家點數相同，則莊家勝，閒家立賠"             ;
@@ -83,12 +83,13 @@ void toolKit::startUpPage()
 	toolKitInit();
 	gotoxy(18, 34); cout << "                       [設 定 完 成]";
 	gotoxy(18, 38); cout << "                       [按ENTER開始遊戲]";
-	pause();
+	return pause();
 }
-void toolKit::pause()
+string toolKit::pause()
 {
 	string dummy;
 	getline(cin, dummy);
+	return dummy;
 }
 
 void toolKit::sleep(double timeS)
@@ -111,8 +112,34 @@ void toolKit::terminal_clear()
 	system("cls");
 }
 
-
-
-
-
-
+int toolKit::BetterRead(int &data, string inputS, int locateX, int locateY)
+{
+	int check;
+	while (true)
+	{
+		
+		gotoxy(locateX, locateY);
+		cout << "                                       ";
+		gotoxy(locateX, locateY);
+		cout << inputS;
+		cin >> check;
+		if (!(cin.fail()))
+		{
+			break;
+		}
+		else
+		{
+			string garbage;
+			gotoxy(locateX, locateY);
+			cout << "                                       ";
+			gotoxy(locateX, locateY);
+			cout << "輸入錯誤，請重新輸入!!";
+			cin.clear();
+			cin.sync();
+			cin >> garbage;
+			sleep(3);
+		}
+	}
+	data = check;
+	return check;
+}
