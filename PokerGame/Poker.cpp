@@ -38,7 +38,7 @@ void Poker::init(bool checkOut)
 		for (int i = 0; i < 5; i++)
 			playerBet[i] = 0;
 		printAllPlayer();
-		Nshuffle();
+		shuffle();
 	}
 }
 
