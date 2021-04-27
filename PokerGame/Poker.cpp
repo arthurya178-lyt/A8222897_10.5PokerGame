@@ -1,4 +1,4 @@
-﻿#include "Poker.h"
+#include "Poker.h"
 #include "PokerCard.h"
 #include "toolKit.h"
 #include <cstdlib>
@@ -38,7 +38,7 @@ void Poker::init(bool checkOut)
 		for (int i = 0; i < 5; i++)
 			playerBet[i] = 0;
 		printAllPlayer();
-		shuffle();
+		Nshuffle();
 	}
 }
 
@@ -52,8 +52,8 @@ void Poker::Nshuffle()
 void Poker::shuffle()
 {
 	drawingCard = 0;
-	srand(timeSEED);
 	shuffleTIME = (rand() % 6);
+	srand(time(NULL));
 	for (int x = 0; x < shuffleTIME; x++)
 		for (int i = 51; i >= 0; i--)
 		{
